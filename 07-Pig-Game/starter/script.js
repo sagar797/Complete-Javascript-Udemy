@@ -1,5 +1,13 @@
 'use strict';
 
+const player1Name=prompt('Enter player 1 name: ');
+const player2Name=prompt('Enter player 2 name: ');
+
+const player1=document.querySelector('#name--0');
+const player2=document.querySelector('#name--1');
+player1.textContent=player1Name===''? 'Player 1': player1Name;
+player2.textContent=player2Name===''? 'Player 2': player2Name;
+
 const player1Score = document.querySelector('#score--0');
 player1Score.textContent = 0;
 
@@ -50,6 +58,7 @@ hold.addEventListener('click', function () {
     player1Score.textContent = newValue;
     if (newValue >= 100) {
       document.querySelector('.player--0').style.backgroundColor = 'black';
+      player1.style.color='grey';
       return;
     }
   } else {
@@ -58,6 +67,7 @@ hold.addEventListener('click', function () {
     player2Score.textContent = newValue;
     if (newValue >= 100) {
       document.querySelector('.player--1').style.backgroundColor = 'black';
+      player2.style.color='grey';
       return;
     }
   }
