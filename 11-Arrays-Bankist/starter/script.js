@@ -120,6 +120,6 @@ const avgAge=calcAverageHumanAge(arr);
 // console.log(avgAge);
 
 // Coding Challenge 3
-
+// 3 was 2 actually as we have to do in one line using pipelining so done already
 
 // Coding Challenge 4
