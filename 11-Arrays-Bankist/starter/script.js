@@ -116,10 +116,83 @@ const calcAverageHumanAge = arr => {
 };
 
 const arr = [5, 2, 4, 1, 15, 8, 3];
-const avgAge=calcAverageHumanAge(arr);
+// const avgAge = calcAverageHumanAge(arr);
 // console.log(avgAge);
 
 // Coding Challenge 3
 // 3 was 2 actually as we have to do in one line using pipelining so done already
 
 // Coding Challenge 4
+const dogs = [
+  { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
+  { weight: 8, curFood: 200, owners: ['Matilda'] },
+  { weight: 13, curFood: 275, owners: ['Sarah', 'John'] },
+  { weight: 32, curFood: 340, owners: ['Michael'] },
+];
+
+dogs.forEach(dog => {
+  dog.recommendedFood = dog.weight ** 0.75 * 28;
+});
+
+// sort the array dogs in shallow copy ascending on the basis of recommended food
+const dogsCopy = dogs.map(dog => dog.recommendedFood).flat();
+console.log(dogsCopy); // unsorted array
+dogsCopy.sort((a, b) => a - b);
+console.log(dogsCopy); // sorted array
+
+// console.log(dogs);
+let ownersEatTooMuch = [];
+let ownersEatTooLittle = [];
+let ownersEatOkayAmount = [];
+
+dogs.forEach(dog => {
+  if (dog.curFood > dog.recommendedFood * 1.1)
+    ownersEatTooMuch.push(dog.owners);
+  else if (dog.curFood < dog.recommendedFood * 0.9)
+    ownersEatTooLittle.push(dog.owners);
+  else if (dog.curFood === dog.recommendedFood) {
+    console.log(true);
+  } else {
+    // console.log(dog.owners.flat(), dog.curFood, dog.recommendedFood);
+    ownersEatOkayAmount.push(dog.owners);
+  }
+});
+
+ownersEatTooMuch = ownersEatTooMuch.flat();
+ownersEatTooLittle = ownersEatTooLittle.flat();
+ownersEatOkayAmount = ownersEatOkayAmount.flat();
+// console.log(ownersEatTooMuch);
+// console.log(ownersEatTooLittle);
+// console.log(ownersEatOkayAmount);
+
+let tooMuch = '';
+ownersEatTooMuch.forEach((owner, i) => {
+  i === ownersEatTooMuch.length - 1
+    ? (tooMuch += owner + "'s")
+    : (tooMuch += owner + ' and ');
+});
+
+// console.log(tooMuch + ' eat too much!');
+
+let tooLittle = '';
+ownersEatTooLittle.forEach((owner, i) => {
+  i === ownersEatTooLittle.length - 1
+    ? (tooLittle += owner + "'s")
+    : (tooLittle += owner + ' and ');
+});
+
+// console.log(tooLittle + ' eat too little!');
+
+// ===========================================================
+
+// console.log(dogs.find(dog => dog.owners.includes('Sarah')));
+// const dog = dogs.find(dog => dog.owners.includes('Sarah'));
+// console.log(typeof(dog.curFood),typeof(dog.recommendedFood));
+
+// dog.curFood > dog.recommendedFood
+//   ? console.log(
+//       `eating too much ${dog.curFood} should be ${dog.recommendedFood}`
+//     )
+//   : console.log(
+//       `eating too less ${dog.curFood} should be ${dog.recommendedFood}`
+// );
