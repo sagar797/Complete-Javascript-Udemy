@@ -74,3 +74,52 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+// Coding Challenge 1
+const juliaDogs = [3, 5, 2, 12, 7];
+const kateDogs = [4, 1, 15, 8, 3];
+const juliaCopiedArr = juliaDogs.slice(1, -2);
+// console.log(juliaCopiedArr);
+
+const checkDogs = function (arr1, arr2) {
+  const arr = [...arr1, ...arr2];
+  // console.log(arr);
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] < 3) {
+      console.log(`Dog number ${i + 1} is still a puppy 🐶`);
+    } else {
+      console.log(
+        `Dog number ${i + 1} is an adult, and is ${arr[i]} years old`
+      );
+    }
+  }
+};
+
+// checkDogs(juliaCopiedArr,kateDogs);
+
+// Coding Challenge 2
+const calcAverageHumanAge = arr => {
+  const adults = arr
+    .map(x => {
+      if (x <= 2) {
+        return (x = x * 2);
+      } else {
+        return 16 + x * 4;
+      }
+    })
+    .filter(age => age >= 18);
+  console.log(adults);
+
+  const avg = adults.reduce((acc, curr) => acc + curr, 0) / adults.length;
+
+  console.log(avg);
+  return avg;
+};
+
+const arr = [5, 2, 4, 1, 15, 8, 3];
+const avgAge=calcAverageHumanAge(arr);
+// console.log(avgAge);
+
+// Coding Challenge 3
+
+
+// Coding Challenge 4
