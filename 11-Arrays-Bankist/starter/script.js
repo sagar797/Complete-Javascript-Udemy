@@ -96,6 +96,7 @@ const checkDogs = function (arr1, arr2) {
 
 // checkDogs(juliaCopiedArr,kateDogs);
 
+/////////////////////////////////////////////////
 // Coding Challenge 2
 const calcAverageHumanAge = arr => {
   const adults = arr
@@ -119,9 +120,12 @@ const arr = [5, 2, 4, 1, 15, 8, 3];
 // const avgAge = calcAverageHumanAge(arr);
 // console.log(avgAge);
 
+/////////////////////////////////////////////////
 // Coding Challenge 3
 // 3 was 2 actually as we have to do in one line using pipelining so done already
 
+
+/////////////////////////////////////////////////
 // Coding Challenge 4
 const dogs = [
   { weight: 22, curFood: 250, owners: ['Alice', 'Bob'] },
