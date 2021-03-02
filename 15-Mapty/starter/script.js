@@ -24,7 +24,7 @@ const getCurrGeoLocation = function () {
   }
 };
 
-let map;
+let map, mapE;
 const createMap = function (latlong) {
   map = L.map('map').setView(latlong, 13);
   // console.log(map);
@@ -34,18 +34,32 @@ const createMap = function (latlong) {
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-  map.on('click', function (mapE) {
+  map.on('click', function (mapEvent) {
     // console.log(mapE);
-    setPopupAndMarker(mapE);
+    mapE = mapEvent;
+    // latlong = [mapE.latlng.lat, mapE.latlng.lng];
+    // console.log('✔  ' + latlong);
     form.classList.remove('hidden');
     inputDistance.focus();
   });
 };
 
-const setPopupAndMarker = function (mapE) {
-  L.marker([mapE.latlng.lat, mapE.latlng.lng])
+const setPopupAndMarker = function () {
+  // console.log(mapE);
+  let latlong = [mapE.latlng.lat, mapE.latlng.lng];
+  // console.log(latlong);
+  L.marker(latlong)
     .addTo(map)
-    .bindPopup('Enter text in form')
+    .bindPopup(
+      L.popup({
+        maxWidth: 250,
+        minWidth: 100,
+        autoClose: false,
+        closeOnClick: false,
+        className: `${inputType.value}-popup`,
+      })
+    )
+    .setPopupContent(`${inputType.value}`)
     .openPopup();
 };
 
@@ -53,8 +67,55 @@ form.addEventListener('submit', function (e) {
   // console.log('form submitted');
   e.preventDefault();
   form.classList.add('hidden');
-  inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value =
-    '';
+  setPopupAndMarker();
+
+  let date = new Date();
+  let html = `<li class="workout workout--${
+    inputType.value === 'cycling' ? 'cycling' : 'running'
+  }" data-id="1234567890">
+    <h2 class="workout__title">${
+      inputType.value === 'running' ? 'Running' : 'Cycling'
+    } on ${months[date.getMonth()]} ${date.getDate()}</h2>
+    <div class="workout__details">
+      <span class="workout__icon">${
+        inputType.value == 'cycling' ? '🚴‍♀️' : '🏃‍♂️'
+      }</span>
+      <span class="workout__value">${inputDistance.value}</span>
+      <span class="workout__unit">km</span>
+    </div>
+    <div class="workout__details">
+      <span class="workout__icon">⏱</span>
+      <span class="workout__value">${inputDuration.value}</span>
+      <span class="workout__unit">min</span>
+    </div>`;
+
+  if (inputType.value === 'cycling') {
+    html += `<div class="workout__details">
+        <span class="workout__icon">🦶🏼</span>
+        <span class="workout__value">${inputElevation.value}</span>
+        <span class="workout__unit">spm</span>
+      </div>
+    </li>`;
+  }
+
+  if (inputType.value === 'running') {
+    html += `<div class="workout__details">
+        <span class="workout__icon">⚡️</span>
+        <span class="workout__value">${inputCadence.value}</span>
+        <span class="workout__unit">min/km</span>
+      </div>
+    </li>`;
+  }
+
+  containerWorkouts.insertAdjacentHTML('beforeend', html);
+  // inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value =
+  //   '';
+  form.reset();
+});
+
+inputType.addEventListener('change', function () {
+  inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
+  inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
 });
 
 getCurrGeoLocation();
