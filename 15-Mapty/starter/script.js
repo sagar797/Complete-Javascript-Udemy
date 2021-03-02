@@ -13,33 +13,48 @@ const inputElevation = document.querySelector('.form__input--elevation');
 
 // getting current longitude and latitude coordinates
 const getCurrGeoLocation = function () {
-  if ('geolocation' in navigator) {
+  if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
-    //   console.log(position.coords);
       let latitude = position.coords.latitude;
       let longitude = position.coords.longitude;
-      console.log(latitude, longitude);
-      return [latitude, longitude];
+      let latlong = [latitude, longitude];
+      // console.log(latlong);
+      createMap(latlong);
     });
-  } else {
-    alert("Can't find Location. Check internet or reload again ;) ");
   }
 };
 
-const createMap = function (longlat) {
-  //   creating map using leaflet
-  var map = L.map('map').setView(longlat, 13);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+let map;
+const createMap = function (latlong) {
+  map = L.map('map').setView(latlong, 13);
+  // console.log(map);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   }).addTo(map);
 
-  L.marker(longlat).addTo(map).bindPopup('Popup').openPopup();
+  map.on('click', function (mapE) {
+    // console.log(mapE);
+    setPopupAndMarker(mapE);
+    form.classList.remove('hidden');
+    inputDistance.focus();
+  });
 };
 
-const longlat = getCurrGeoLocation();
-console.log(longlat);
-// createMap(longlat);
+const setPopupAndMarker = function (mapE) {
+  L.marker([mapE.latlng.lat, mapE.latlng.lng])
+    .addTo(map)
+    .bindPopup('Enter text in form')
+    .openPopup();
+};
 
-form.classList.remove('hidden');
-// form.style.opacity = 1;
+form.addEventListener('submit', function (e) {
+  // console.log('form submitted');
+  e.preventDefault();
+  form.classList.add('hidden');
+  inputDistance.value = inputDuration.value = inputCadence.value = inputElevation.value =
+    '';
+});
+
+getCurrGeoLocation();
